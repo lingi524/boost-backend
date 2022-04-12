@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "type": "node-terminal",
+            "name": "Debug start",
+            "request": "launch",
+            "command": "npm run start",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug current file",
+            "program": "${file}"
+        }
+    ]
+}
