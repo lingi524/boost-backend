@@ -8,6 +8,7 @@
     "build": "tsc",
     "dev": "nodemon --watch src/** --ext ts,json --exec ts-node src/index.ts",
     "test": "jest",
+    "lint": "eslint src/**/*.ts",
     "test:watch": "jest --watch"
   },
   "repository": {

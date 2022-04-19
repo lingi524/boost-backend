@@ -1,6 +1,6 @@
 import express from 'express'
 import { DefaultGroceryService } from './grocery-service'
-import { InMemoryGroceryDao } from './grocery-dao'
+import { InMemoryGroceryDao } from './in-memory-grocery-dao'
 
 const dao = new InMemoryGroceryDao()
 const service = new DefaultGroceryService(dao)
