@@ -1,15 +1,16 @@
 import express from 'express'
-import hello from './hello'
+import { DefaultGroceryService } from './grocery-service'
+import { InMemoryGroceryDao } from './grocery-dao'
+
+const dao = new InMemoryGroceryDao()
+const service = new DefaultGroceryService(dao)
 
 const app = express()
 const PORT = 8080
 
-app.get('/ping', (req, res) => {
-  res.send('pong')
-})
-
-app.get('/', (req, res) => {
-  res.send(hello())
+app.get('/food-items', async(req, res) => {
+  const items = await service.getAll()
+  res.send(items)
 })
 
 const server = app.listen(PORT, () => {
