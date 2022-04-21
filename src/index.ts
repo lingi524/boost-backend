@@ -1,4 +1,5 @@
 import express from 'express'
+import 'dotenv/config'
 import { DefaultGroceryService } from './grocery-service'
 import { InMemoryGroceryDao } from './in-memory-grocery-dao'
 
