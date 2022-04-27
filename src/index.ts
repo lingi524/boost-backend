@@ -1,46 +1,54 @@
 import express from 'express'
 import 'dotenv/config'
 import { DefaultGroceryService } from './grocery-service'
-import { InMemoryGroceryDao } from './in-memory-grocery-dao'
+import { InMemoryGroceryDao, MongoDbDao } from './dao'
 import { FoodItem } from './models'
+import { connectToMongoDB } from './connection'
 
-const dao = new InMemoryGroceryDao()
-const service = new DefaultGroceryService(dao)
+const initServer = async () => {
 
-const app = express();
-app.use(express.json());
-const PORT = 8080;
+  const dao = new MongoDbDao();
+  const service = new DefaultGroceryService(dao);
 
-app.get('/food-items', async(req, res) => {
-  const items = await service.getAll()
-  res.send(items)
-})
+  const app = express();
+  app.use(express.json());
+  const PORT = 8080;
 
-app.post('/food-items', async (req: express.Request, res: express.Response) => {
-  const item = req.body as FoodItem;
-  await service.create(item)
-  res.sendStatus(201);
-})
+  app.get('/food-items', async(req, res) => {
+    const items = await service.getAll()
+    res.send(items)
+  })
 
-app.delete('/food-items/:id', async (req: express.Request, res: express.Response) => {
-  const id = req.params.id;
-  await service.delete(id);
-  res.sendStatus(204);
-})
+  app.post('/food-items', async (req: express.Request, res: express.Response) => {
+    const item = req.body as FoodItem;
+    await service.create(item)
+    res.sendStatus(201);
+  })
 
-app.get('/food-items/:id', async(req: express.Request, res: express.Response) => {
-  const item = await service.getById(req.params.id)
-  res.send(item);
-})
+  app.delete('/food-items/:id', async (req: express.Request, res: express.Response) => {
+    const id = req.params.id;
+    await service.delete(id);
+    res.sendStatus(204);
+  })
 
-app.put('/food-items/:id', async(req: express.Request, res: express.Response) => {
-  const item = req.body as FoodItem;
-  await service.update(item);
-  res.sendStatus(201);
-})
+  app.get('/food-items/:id', async(req: express.Request, res: express.Response) => {
+    const item = await service.getById(req.params.id)
+    res.send(item);
+  })
 
-const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+  app.put('/food-items/:id', async(req: express.Request, res: express.Response) => {
+    const item = req.body as FoodItem;
+    await service.update(item);
+    res.sendStatus(201);
+  })
 
-export default server
+  const server = app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+  })
+
+  await connectToMongoDB();
+
+}
+
+
+initServer();
