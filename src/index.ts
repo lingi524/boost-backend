@@ -15,7 +15,7 @@ const initServer = async () => {
   const app = express();
   app.use(express.json());
   app.use(timeLogger);
-  const PORT = (process.env.port || 8080);
+  const PORT = (process.env.PORT || 8080);
 
   app.get('/food-items', async(req, res) => {
     const items = await service.getAll()
