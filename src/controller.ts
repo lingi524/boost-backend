@@ -6,9 +6,11 @@ import { CustomErrors, GroceryAppError } from './errors'
 import { DefaultGroceryService } from './grocery-service'
 import { MongoDbDao } from './dao'
 import { FoodItem } from './models'
+import cors from "cors";
 
 const app = express();
 app.use(express.json);
+app.use(cors());
 
 const getExpressApp = () => {
   const dao = new MongoDbDao();
