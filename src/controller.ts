@@ -10,16 +10,15 @@ import cors from "cors";
 
 const app = express();
 app.use(express.json);
-app.use(cors());
 
 const getExpressApp = () => {
   const dao = new MongoDbDao();
   const service = new DefaultGroceryService(dao);
-
   const app = express();
   app.use(express.json());
   app.use(timeLogger);
   // app.use(authenticate);
+  app.use(cors());
 
   const getSatusCodeFromError = (error: Error | GroceryAppError): number => {
     switch ((error as GroceryAppError).errorType) {
